@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Crypto Trader — Paper Trading Simulator</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">🤖 AI Crypto Trader <span class="badge-paper">PAPER TRADING</span></div>
+  <div class="top-status">
+    <span id="dataSource" class="src">Connecting…</span>
+    <span id="clock" class="clock"></span>
+  </div>
+</header>
+
+<main>
+  <!-- Pair selector + live price -->
+  <section class="card pair-bar">
+    <div class="pairs" id="pairButtons"></div>
+    <div class="live-price">
+      <div class="lp-label" id="pairLabel">BTC/USDT</div>
+      <div class="lp-price" id="livePrice">—</div>
+      <div class="lp-change" id="liveChange">—</div>
+    </div>
+  </section>
+
+  <!-- Chart -->
+  <section class="card">
+    <div class="card-title">Price chart <span class="muted" id="chartMeta">1m candles</span></div>
+    <canvas id="chart" width="900" height="260"></canvas>
+    <div class="legend"><span class="dot buy">▲ Buy</span> <span class="dot sell">▼ Sell</span></div>
+  </section>
+
+  <div class="grid">
+    <!-- AI Signal -->
+    <section class="card">
+      <div class="card-title">AI Signal Engine <span class="muted small">rule-based — not a real ML model</span></div>
+      <div class="gauge-wrap">
+        <div class="gauge"><div id="scoreFill" class="gauge-fill" style="width:50%"></div></div>
+        <div class="gauge-num"><span id="aiScore">50</span>/100</div>
+      </div>
+      <div class="signal-row">
+        <span id="signalBadge" class="signal hold">HOLD</span>
+        <span id="confidence">Confidence —</span>
+      </div>
+      <p id="signalReason" class="reason">Waiting for data…</p>
+      <div class="ind-grid" id="indicators">
+        <div>EMA 12/26 <b id="indEma">—</b></div>
+        <div>RSI 14 <b id="indRsi">—</b></div>
+        <div>MACD <b id="indMacd">—</b></div>
+        <div>Volume <b id="indVol">—</b></div>
+      </div>
+      <div class="strategy-row">
+        <label>Strategy</label>
+        <div class="seg" id="strategySeg">
+          <button data-strategy="conservative">Conservative</button>
+          <button data-strategy="balanced" class="active">Balanced</button>
+          <button data-strategy="aggressive">Aggressive</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Settings -->
+    <section class="card">
+      <div class="card-title">Session Settings</div>
+      <div class="settings">
+        <label>Starting budget ($)<input type="number" id="setBudget" min="10" step="10" value="1000"></label>
+        <label>Target profit (%)<input type="number" id="setTarget" min="1" step="1" value="20"></label>
+        <label>Time limit
+          <select id="setHours">
+            <option value="1">1 hour</option>
+            <option value="24" selected>24 hours</option>
+            <option value="168">7 days</option>
+            <option value="720">30 days</option>
+            <option value="custom">Custom…</option>
+          </select>
+        </label>
+        <label id="customHoursWrap" class="hidden">Custom hours<input type="number" id="setCustomHours" min="1" step="1" value="12"></label>
+        <label>Max trade size (% of cash)<input type="number" id="setMaxTrade" min="1" max="100" step="1" value="25"></label>
+        <label>Stop-loss per trade (%)<input type="number" id="setSL" min="0.5" step="0.5" value="5"></label>
+        <label>Take-profit per trade (%)<input type="number" id="setTP" min="0.5" step="0.5" value="10"></label>
+        <label>Auto-trade check every
+          <select id="setInterval">
+            <option value="30">30 seconds</option>
+            <option value="60" selected>1 minute</option>
+            <option value="300">5 minutes</option>
+          </select>
+        </label>
+        <label class="toggle-row">Auto-trade
+          <span class="switch"><input type="checkbox" id="setAutoTrade" checked><span class="slider"></span></span>
+        </label>
+      </div>
+      <div class="btn-row">
+        <button id="btnStart" class="btn primary">▶ Start</button>
+        <button id="btnPause" class="btn" disabled>⏸ Pause</button>
+        <button id="btnReset" class="btn danger">↺ Reset</button>
+      </div>
+      <div class="btn-row">
+        <button id="btnBuy" class="btn buy-btn" disabled>Buy (manual)</button>
+        <button id="btnSell" class="btn sell-btn" disabled>Sell (manual)</button>
+      </div>
+      <p class="muted small">Trades execute at the live price with a 0.1% fee. Manual buttons work while a session is running, even with auto-trade off.</p>
+    </section>
+
+    <!-- Portfolio -->
+    <section class="card">
+      <div class="card-title">Portfolio</div>
+      <div id="resultBanner" class="banner hidden"></div>
+      <div class="pf-grid">
+        <div><span>Starting capital</span><b id="pfStart">$1,000.00</b></div>
+        <div><span>Current value</span><b id="pfValue">$1,000.00</b></div>
+        <div><span>P&amp;L</span><b id="pfPnl" class="neutral">$0.00 (0.00%)</b></div>
+        <div><span>Cash</span><b id="pfCash">$1,000.00</b></div>
+        <div><span>Holdings</span><b id="pfHold">—</b></div>
+        <div><span>Time left</span><b id="pfTime">—</b></div>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>Progress to target (<span id="targetLabel">+20%</span>)</span><span id="progressPct">0%</span></div>
+        <div class="progress"><div id="progressFill" class="progress-fill" style="width:0%"></div></div>
+      </div>
+      <div class="stats">
+        <div>Trades <b id="stTrades">0</b></div>
+        <div>Wins <b id="stWins">0</b></div>
+        <div>Win rate <b id="stWinRate">—</b></div>
+        <div>Fees paid <b id="stFees">$0.00</b></div>
+      </div>
+    </section>
+
+    <!-- Trade history -->
+    <section class="card wide">
+      <div class="card-title">Trade History <button id="btnClearHist" class="btn tiny">Clear</button></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Time</th><th>Pair</th><th>Side</th><th>Price</th><th>Size</th><th>Fee</th><th>P&amp;L</th><th>Note</th></tr></thead>
+          <tbody id="tradeBody"><tr><td colspan="8" class="muted center">No trades yet.</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <p class="disclaimer">⚠️ Paper trading simulator — no real money. Prices are live market data, trades are simulated. Not financial advice.</p>
+</main>
+<script src="app.js"></script>
+</body>
+</html>

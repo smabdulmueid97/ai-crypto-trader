@@ -1,0 +1,86 @@
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0b0e14;--card:#141926;--card2:#1a2033;--line:#232c45;--txt:#e6e9f2;--muted:#8b93a7;--green:#22c55e;--red:#ef4444;--amber:#f59e0b;--blue:#3b82f6}
+body{background:var(--bg);color:var(--txt);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.45}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 18px;background:#0e1220;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10;flex-wrap:wrap}
+.brand{font-size:20px;font-weight:800}
+.badge-paper{background:var(--amber);color:#111;font-size:11px;font-weight:700;padding:3px 8px;border-radius:20px;vertical-align:middle;margin-left:6px}
+.top-status{display:flex;gap:14px;align-items:center;font-size:13px;color:var(--muted)}
+.src{color:var(--green)}
+main{max-width:1100px;margin:0 auto;padding:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px}
+.card-title{font-size:15px;font-weight:700;margin-bottom:12px}
+.muted{color:var(--muted)}
+.small{font-size:12px;font-weight:400}
+.center{text-align:center}
+.hidden{display:none!important}
+.pair-bar{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.pairs{display:flex;gap:8px;flex-wrap:wrap}
+.pairs button{background:var(--card2);border:1px solid var(--line);color:var(--txt);padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:600}
+.pairs button.active{background:var(--blue);border-color:var(--blue)}
+.live-price{text-align:right}
+.lp-label{font-size:12px;color:var(--muted)}
+.lp-price{font-size:28px;font-weight:800}
+.lp-change{font-size:14px;font-weight:700}
+.up{color:var(--green)} .down{color:var(--red)} .neutral{color:var(--muted)}
+#chart{width:100%;height:260px;display:block;background:#0d1120;border-radius:8px}
+.legend{font-size:12px;color:var(--muted);margin-top:6px}
+.dot.buy{color:var(--green);margin-right:12px}.dot.sell{color:var(--red)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid .card{margin-bottom:0}
+.wide{grid-column:1/-1}
+@media(max-width:760px){.grid{grid-template-columns:1fr}}
+.gauge-wrap{display:flex;align-items:center;gap:12px}
+.gauge{flex:1;height:16px;background:#0d1120;border-radius:10px;overflow:hidden}
+.gauge-fill{height:100%;background:linear-gradient(90deg,var(--red),var(--amber),var(--green));transition:width .4s}
+.gauge-num{font-size:20px;font-weight:800;min-width:70px;text-align:right}
+.signal-row{display:flex;align-items:center;gap:12px;margin:12px 0 6px}
+.signal{font-size:18px;font-weight:800;padding:4px 14px;border-radius:8px}
+.signal.buy{background:rgba(34,197,94,.18);color:var(--green)}
+.signal.sell{background:rgba(239,68,68,.18);color:var(--red)}
+.signal.hold{background:rgba(139,147,167,.18);color:var(--muted)}
+.reason{color:var(--muted);font-size:14px;margin-bottom:12px}
+.ind-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:14px;color:var(--muted);margin-bottom:14px}
+.ind-grid b{color:var(--txt)}
+.strategy-row label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+.seg{display:flex;gap:6px}
+.seg button{flex:1;background:var(--card2);border:1px solid var(--line);color:var(--txt);padding:8px 4px;border-radius:8px;cursor:pointer;font-size:13px}
+.seg button.active{background:var(--blue);border-color:var(--blue)}
+.settings{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.settings label{font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+.settings input,.settings select{background:#0d1120;border:1px solid var(--line);color:var(--txt);padding:8px;border-radius:8px;font-size:14px;width:100%}
+.toggle-row{flex-direction:row!important;align-items:center;justify-content:space-between}
+.switch{position:relative;width:46px;height:26px;display:inline-block}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:#333c55;border-radius:20px;cursor:pointer;transition:.2s}
+.slider:before{content:"";position:absolute;width:20px;height:20px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}
+.switch input:checked+.slider{background:var(--green)}
+.switch input:checked+.slider:before{transform:translateX(20px)}
+.btn-row{display:flex;gap:8px;margin-top:12px}
+.btn{flex:1;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--card2);color:var(--txt);font-weight:700;cursor:pointer;font-size:14px}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.primary{background:var(--green);border-color:var(--green);color:#06130a}
+.btn.danger{background:rgba(239,68,68,.15);color:var(--red)}
+.btn.buy-btn{background:rgba(34,197,94,.15);color:var(--green)}
+.btn.sell-btn{background:rgba(239,68,68,.15);color:var(--red)}
+.btn.tiny{flex:none;padding:4px 10px;font-size:12px}
+.pf-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:14px}
+.pf-grid div{display:flex;flex-direction:column}
+.pf-grid span{color:var(--muted);font-size:12px}
+.pf-grid b{font-size:17px}
+.progress-wrap{margin-top:14px}
+.progress-label{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:5px}
+.progress{height:12px;background:#0d1120;border-radius:8px;overflow:hidden}
+.progress-fill{height:100%;background:var(--green);transition:width .4s}
+.stats{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:14px;font-size:13px;color:var(--muted)}
+.stats b{color:var(--txt)}
+.banner{padding:12px;border-radius:8px;font-weight:700;margin-bottom:12px;text-align:center}
+.banner.win{background:rgba(34,197,94,.18);color:var(--green)}
+.banner.lose{background:rgba(239,68,68,.18);color:var(--red)}
+.banner.info{background:rgba(59,130,246,.18);color:var(--blue)}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+th{color:var(--muted);font-weight:600}
+td.buy{color:var(--green);font-weight:700}
+td.sell{color:var(--red);font-weight:700}
+.disclaimer{text-align:center;color:var(--muted);font-size:13px;padding:8px 0 24px}
