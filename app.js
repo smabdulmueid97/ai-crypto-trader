@@ -432,16 +432,23 @@ function renderTrades() {
     const time = d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
     const pnl = t.pnl == null ? '—' : (t.pnl >= 0 ? '+' : '') + fmt$(t.pnl);
     const pnlCls = t.pnl == null ? '' : t.pnl >= 0 ? 'up' : 'down';
-    return '<tr><td>' + time + '</td><td>' + t.pair + '</td><td class="' + t.side.toLowerCase() + '">' + t.side + '</td>' +
-      '<td>$' + fmtPrice(t.price) + '</td><td>' + fmt$(t.size) + '</td><td>' + fmt$(t.fee) + '</td>' +
-      '<td class="' + pnlCls + '">' + pnl + '</td><td>' + (t.note || '') + '</td></tr>';
+    return '<tr><td class="cell-head">' + time + '</td><td data-label="Pair">' + t.pair + '</td><td data-label="Side" class="' + t.side.toLowerCase() + '">' + t.side + '</td>' +
+      '<td data-label="Price">$' + fmtPrice(t.price) + '</td><td data-label="Size">' + fmt$(t.size) + '</td><td data-label="Fee">' + fmt$(t.fee) + '</td>' +
+      '<td data-label="P&L" class="' + pnlCls + '">' + pnl + '</td><td data-label="Note">' + (t.note || '') + '</td></tr>';
   }).join('');
 }
 
 function drawChart() {
   const cv = $('chart');
+  // size the backing store to the displayed size (was fixed 900px wide,
+  // so on phones the chart rendered tiny and "Loading chart…" looked clipped)
+  const dpr = window.devicePixelRatio || 1;
+  const cssW = cv.clientWidth || 300, cssH = 260;
+  const pxW = Math.round(cssW * dpr), pxH = Math.round(cssH * dpr);
+  if (cv.width !== pxW || cv.height !== pxH) { cv.width = pxW; cv.height = pxH; }
   const ctx = cv.getContext('2d');
-  const W = cv.width, H = cv.height;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const W = cssW, H = cssH;
   ctx.clearRect(0, 0, W, H);
   if (candles.length < 2) {
     ctx.fillStyle = '#8b93a7'; ctx.font = '14px system-ui';
