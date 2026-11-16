@@ -28,6 +28,12 @@ main{max-width:1100px;margin:0 auto;padding:16px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .grid .card{margin-bottom:0}
 .wide{grid-column:1/-1}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid>*{min-width:0}
+.card{min-width:0}
+.settings label,.ind-grid>*,.pf-grid>*,.btn{min-width:0}
+.settings input,.settings select{min-width:0}
+@media(max-width:480px){.settings{grid-template-columns:1fr}.lp-price{font-size:22px}.gauge-num{min-width:52px;font-size:17px}.topbar{padding:12px}.brand{font-size:17px}}
 @media(max-width:760px){.grid{grid-template-columns:1fr}}
 .gauge-wrap{display:flex;align-items:center;gap:12px}
 .gauge{flex:1;height:16px;background:#0d1120;border-radius:10px;overflow:hidden}
@@ -81,6 +87,17 @@ main{max-width:1100px;margin:0 auto;padding:16px}
 table{width:100%;border-collapse:collapse;font-size:13px}
 th,td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
 th{color:var(--muted);font-weight:600}
+@media(max-width:640px){
+  /* trade history becomes stacked cards — no horizontal scroll on phones */
+  table.hist, table.hist thead, table.hist tbody, table.hist tr, table.hist th, table.hist td{display:block}
+  table.hist thead{display:none}
+  table.hist tbody tr{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:6px 12px;margin-bottom:10px}
+  table.hist td{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:7px 0;border-bottom:1px solid var(--line);text-align:right;white-space:normal}
+  table.hist td:last-child{border-bottom:0}
+  table.hist td::before{content:attr(data-label);color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+  table.hist td.cell-head{display:block;text-align:left;font-weight:700;font-size:15px}
+  table.hist td.cell-head::before{content:none}
+}
 td.buy{color:var(--green);font-weight:700}
 td.sell{color:var(--red);font-weight:700}
 .disclaimer{text-align:center;color:var(--muted);font-size:13px;padding:8px 0 24px}
