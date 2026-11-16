@@ -6,13 +6,13 @@
 
 Set a budget and a target, let a rule-based signal engine trade on live Binance prices — or trade manually. See whether you beat your starting capital before the clock runs out.
 
+**🚀 [Try the live app — see it in action](https://ai-crypto-trader-6f1vtvwa8-ggq3.vercel.app)**
+
+Paper trading only. Not financial advice.
+
 [![License: MIT](https://img.shields.io/github/license/smabdulmueid97/ai-crypto-trader?style=flat-square)](https://github.com/smabdulmueid97/ai-crypto-trader/blob/main/LICENSE)
 [![Stars](https://img.shields.io/github/stars/smabdulmueid97/ai-crypto-trader?style=flat-square)](https://github.com/smabdulmueid97/ai-crypto-trader/stargazers)
 [![Last commit](https://img.shields.io/github/last-commit/smabdulmueid97/ai-crypto-trader?style=flat-square)](https://github.com/smabdulmueid97/ai-crypto-trader/commits/main)
-
-**[▶ Try it — live app](https://ai-crypto-trader-6f1vtvwa8-ggq3.vercel.app)**
-
-Paper trading only. Not financial advice.
 
 </div>
 
